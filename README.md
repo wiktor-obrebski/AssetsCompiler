@@ -1,4 +1,1 @@
-Minifier
-========
-
-Zend module to automate js/css combine and minify issues
+Sample, skeleton module for use with the ZF2 MVC layer.
