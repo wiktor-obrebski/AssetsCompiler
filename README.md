@@ -96,7 +96,8 @@ echo $this->headScript();
 ?>
 ```
 
-Remember that entries will be really rendered when you will echo zf2 *headLink* view helper.
+Remember that entries will be really rendered when you will echo zf2 *headScript* view helper
+or *headLink* in *prependCssBundle* case.
 
 Now you can simply control that zend attach js/css files list, or just bundles files - but
 changing **development_mode** flat in your *Minifier* configuration.
