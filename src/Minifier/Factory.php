@@ -5,7 +5,6 @@ namespace Minifier;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Minifier\Minifier;
-use Minifier\Adapter\AdapterInterface;
 use Minifier\View\Helper\BundlePath;
 
 /**
@@ -66,14 +65,14 @@ class Factory implements FactoryInterface
     public function createJsHelper()
     {
         $helper = new BundlePath();
-        $helper->setMode( AdapterInterface::MODE_JS );
+        $helper->setMode( 'js' );
         return $helper;
     }
 
     public function createCssHelper()
     {
         $helper = new BundlePath();
-        $helper->setMode( AdapterInterface::MODE_CSS );
+        $helper->setMode( 'css' );
         return $helper;
     }
 }

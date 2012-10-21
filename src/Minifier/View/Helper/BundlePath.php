@@ -2,9 +2,6 @@
 
 namespace Minifier\View\Helper;
 
-use Minifier\Adapter\AdapterInterface;
-
-
 /**
  * Helper for getting bundle scripts path
  *
@@ -136,10 +133,10 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
 
         foreach( $files as $file ) {
             switch( $this->getMode() ) {
-                case AdapterInterface::MODE_JS:
+                case 'js':
                     $this->getView()->headScript()->{$action . 'File'}( $file );
                     break;
-                case AdapterInterface::MODE_CSS:
+                case 'css':
                     $this->getView()->headLink()->{$action . 'Stylesheet'}( $file );
                     break;
             }

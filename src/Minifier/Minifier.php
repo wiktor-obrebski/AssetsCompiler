@@ -16,7 +16,8 @@ class Minifier
     protected $publicDirectory;
 
     /**
-     * @param Adapter\AdapterInterface $adapter
+     * @param Adapter\JsAdapterInterface $jsAdapter
+     * @param Adapter\CssAdapterInterface $cssAdapter
      */
     public function __construct( Adapter\JsAdapterInterface $jsAdapter = null,
                                 Adapter\CssAdapterInterface $cssAdapter = null )
@@ -48,7 +49,7 @@ class Minifier
     /**
      * Sets the js minify adapter
      *
-     * @param  Adapter\AdapterInterface $adapter
+     * @param  Adapter\JsAdapterInterface $adapter
      * @return Minifier
      */
     public function setJsAdapter( Adapter\JsAdapterInterface $adapter )
@@ -60,7 +61,7 @@ class Minifier
     /**
      * Sets the css minify adapter
      *
-     * @param  Adapter\AdapterInterface $adapter
+     * @param  Adapter\CssAdapterInterface $adapter
      * @return Minifier
      */
     public function setCssAdapter( Adapter\CssAdapterInterface $adapter )
@@ -153,7 +154,6 @@ class Minifier
 
     protected function compileFiles( $files, $output_path, $mode )
     {
-        $result = $this->getAdapter($mode)->compile( $files, $output_path );
         switch ($mode) {
             case 'js':
                 return $this->jsAdapter->compileJs($files, $output_path);
@@ -212,7 +212,7 @@ class Minifier
      */
     public function compile()
     {
-        $modes  = [ Adapter\AdapterInterface::MODE_JS, Adapter\AdapterInterface::MODE_CSS ];
+        $modes  = [ 'js', 'css' ];
         $pers_config = $this->loadPersistentData();
 
         foreach( $modes as $mode ) {

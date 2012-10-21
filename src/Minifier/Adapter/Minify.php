@@ -2,7 +2,6 @@
 
 namespace Minifier\Adapter;
 
-use Minifier\Adapter\AdapterInterface;
 use MinifyCSS;
 use MinifyJS;
 
