@@ -68,7 +68,7 @@ Now, when you are in your project root directory, you can just type:
 `./bin/minify`
 
 To make life even easier you should consider use Minifer view helpers.
-We can provide two view helpers. You can use in very similiar way to
+Minfier provides two view helpers for you. You can use in very similiar way to
 adding normal, static js and css files.
 
 ```php
@@ -92,7 +92,7 @@ Analogously you can use *prependJsBundle*, *prependCssBundle* methods:
 ```php
 <?php
 $this->prependJsBundle('js_bundle');
-echo $this->headLink();
+echo $this->headScript();
 ?>
 ```
 
