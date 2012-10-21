@@ -12,6 +12,12 @@
         "zendframework",
         "zendframework2"
     ],
+    "authors": [
+        {
+            "name": "Wiktor Obrębski",
+            "email": "psychowico@gmail.com"
+        }
+    ],
     "homepage": "http://github.com/psychowico/minifier",
     "require": {
         "php": ">=5.3.3",
