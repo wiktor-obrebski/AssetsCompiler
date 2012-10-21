@@ -134,21 +134,6 @@ class Minifier
         return array();
     }
 
-    /**
-     * returning js adapter obj or css adapter obj, related of $mode value
-     * @param string 'js'|'css' $mode
-     */
-    protected function getAdapter( $mode )
-    {
-        switch ($mode) {
-            case 'js':
-                return $this->jsAdapter;
-            case 'css':
-                return $this->cssAdapter;
-            default:
-                throw new \DomainException( 'Not supported mode.');
-        }
-    }
 
     /**
      * storing persistant data to xml file, setted by setPersistentPath method
@@ -164,6 +149,19 @@ class Minifier
         $config = new \Zend\Config\Config($data, true);
         $writer = new \Zend\Config\Writer\Xml();
         return $writer->toFile( $path, $config);
+    }
+
+    protected function compileFiles( $files, $output_path, $mode )
+    {
+        $result = $this->getAdapter($mode)->compile( $files, $output_path );
+        switch ($mode) {
+            case 'js':
+                return $this->jsAdapter->compileJs($files, $output_path);
+            case 'css':
+                return $this->cssAdapter->compileCss($files, $output_path);
+            default:
+                throw new \DomainException( 'Not supported mode.');
+        }
     }
 
     /**
@@ -200,7 +198,7 @@ class Minifier
         //files not change
         if( $md5 == $last_md5 && file_exists( $output_path ) ) return false;
 
-        $result = $this->getAdapter($mode)->compile( $files, $output_path );
+        $result = $this->compileFiles( $files, $output_path, $mode );
 
         if( $result ) {
             return array( 'md5' => $md5, 'filepath' => $rel_output_path );
