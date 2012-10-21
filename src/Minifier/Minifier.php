@@ -140,7 +140,7 @@ class Minifier
     {
         $path = $this->persistentPath;
 
-        $dir = basedir($path);
+        $dir = dirname($path);
         if(!is_dir($dir)) mkdir($dir, 0600, true);
 
         // Create the config object
