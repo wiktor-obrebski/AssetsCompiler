@@ -17,7 +17,7 @@ class UglifyJS2 implements JsAdapterInterface
         $this->compiler_path =
             isset( $options['exec'] ) ? $options['exec'] : 'uglifyjs2';
 
-        $this->flags = $options['flags'];
+        $this->flags = isset( $options['flags'] ) ? $options['flags'] : array();
     }
 
     public function compileJs( $files_pathes, $output_file )
@@ -27,7 +27,7 @@ class UglifyJS2 implements JsAdapterInterface
         foreach ($this->flags as $key => $value) {
             $cmd .= ' ' . $key . ' ' . $value;
         }
-        $cmd .= '-o ' . $output_file;
+        $cmd .= ' -o ' . $output_file;
         exec( $cmd );
         return true;
     }
