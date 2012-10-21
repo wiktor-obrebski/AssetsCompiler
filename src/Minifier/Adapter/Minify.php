@@ -11,7 +11,7 @@ use MinifyJS;
  *
  * @author Wiktor Obrębski
  */
-class Minify implements AdapterInterface
+class Minify implements JsAdapterInterface, CssAdapterInterface
 {
     protected $cssOptions = MinifyCSS::ALL;
     protected $jsOptions = MinifyJS::ALL;
@@ -35,14 +35,15 @@ class Minify implements AdapterInterface
         $minifier->minify( $output_file, $options );
         return true;
     }
-    public function compile( $files_pathes, $output_file, $mode )
+
+    public function compileJs( $files_pathes, $output_file )
     {
-        switch ( $mode ) {
-            case AdapterInterface::MODE_CSS:
-                return $this->generalCompile( new MinifyCSS(), $files_pathes, $output_file, $this->cssOptions );
-            case AdapterInterface::MODE_JS:
-                return $this->generalCompile( new MinifyJS(), $files_pathes, $output_file, $this->jsOptions );
-        }
-        return false;
+        return $this->generalCompile( new MinifyJS(), $files_pathes, $output_file, $this->jsOptions );
     }
+
+    public function compileCss( $files_pathes, $output_file )
+    {
+        return $this->generalCompile( new MinifyCSS(), $files_pathes, $output_file, $this->cssOptions );
+    }
+
 }

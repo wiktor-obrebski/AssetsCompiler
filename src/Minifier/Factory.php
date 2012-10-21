@@ -13,13 +13,8 @@ use Minifier\View\Helper\BundlePath;
  */
 class Factory implements FactoryInterface
 {
-    public function createService( ServiceLocatorInterface $serviceLocator )
+    public function checkClass( $adapter_class )
     {
-        $config = $serviceLocator->get('config');
-        $options = $config['minifier'];
-
-        $adapter_class = $options['adapter'];
-
         if (!class_exists($adapter_class)) {
             throw new \DomainException(sprintf(
                 '%s expects the "adapter" attribute to resolve to an existing class; received "%s"',
@@ -27,6 +22,21 @@ class Factory implements FactoryInterface
                 $adapter_class
             ));
         }
+        return $this;
+    }
+
+    public function createService( ServiceLocatorInterface $serviceLocator )
+    {
+        $config = $serviceLocator->get('config');
+        $options = $config['minifier'];
+
+        $js_adapter = $options['js_adapter'];
+        $css_adapter = $options['css_adapter'];
+
+        $js_adapter_class = $js_adapter['class'];
+        $css_adapter_class = $css_adapter['class'];
+
+        $this->checkClass( $js_adapter_class )->checkClass( $css_adapter_class );
 
         $persistent_path = $options['persistent_file'];
         $public_dir = $options['public_dir'];
@@ -38,8 +48,15 @@ class Factory implements FactoryInterface
             $options = $options['options'];
         }
 
-        $adapter = new $adapter_class( $options );
-        $minifier = new Minifier( $adapter );
+        $jsAdapterObj  = new $js_adapter_class( $js_adapter['options'] );
+        $cssAdapterObj = null;
+        if( $js_adapter == $css_adapter ) {
+            $cssAdapterObj = $jsAdapterObj;
+        }
+        else {
+            $cssAdapterObj = new $css_adapter_class( $css_adapter['options'] );
+        }
+        $minifier = new Minifier( $jsAdapterObj, $cssAdapterObj );
         $minifier->setOptions( $bundles_options )
                  ->setPersistentPath( $persistent_path )
                  ->setPublicDirectory( $public_dir );

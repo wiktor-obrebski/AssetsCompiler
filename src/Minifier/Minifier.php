@@ -9,7 +9,7 @@ class Minifier
 {
     const OUTPUT_PATTERN = "%s-%s";
 
-    protected $adapter;
+    protected $jsAdapter, $cssAdapter;
     protected $options;
     protected $persistentPath;
     protected $bundles = array();
@@ -18,9 +18,11 @@ class Minifier
     /**
      * @param Adapter\AdapterInterface $adapter
      */
-    public function __construct( Adapter\AdapterInterface $adapter )
+    public function __construct( Adapter\JsAdapterInterface $jsAdapter = null,
+                                Adapter\CssAdapterInterface $cssAdapter = null )
     {
-        $this->setAdapter( $adapter );
+        $this->setJsAdapter( $jsAdapter )
+             ->setCssAdapter( $cssAdapter );
     }
 
     /**
@@ -44,28 +46,27 @@ class Minifier
     }
 
     /**
-     * Sets the minify adapter
+     * Sets the js minify adapter
      *
      * @param  Adapter\AdapterInterface $adapter
      * @return Minifier
      */
-    public function setAdapter( Adapter\AdapterInterface $adapter )
+    public function setJsAdapter( Adapter\JsAdapterInterface $adapter )
     {
-        $this->adapter = $adapter;
+        $this->jsAdapter = $adapter;
         return $this;
     }
 
-
     /**
-     * Returns the minify adapter
+     * Sets the css minify adapter
      *
-     * The adapter does not have a default if the storage adapter has not been set.
-     *
-     * @return Adapter\AdapterInterface|null
+     * @param  Adapter\AdapterInterface $adapter
+     * @return Minifier
      */
-    public function getAdapter()
+    public function setCssAdapter( Adapter\CssAdapterInterface $adapter )
     {
-        return $this->adapter;
+        $this->cssAdapter = $adapter;
+        return $this;
     }
 
 
@@ -134,6 +135,22 @@ class Minifier
     }
 
     /**
+     * returning js adapter obj or css adapter obj, related of $mode value
+     * @param string 'js'|'css' $mode
+     */
+    protected function getAdapter( $mode )
+    {
+        switch ($mode) {
+            case 'js':
+                return $this->jsAdapter;
+            case 'css':
+                return $this->cssAdapter;
+            default:
+                throw new \DomainException( 'Not supported mode.');
+        }
+    }
+
+    /**
      * storing persistant data to xml file, setted by setPersistentPath method
      */
     protected function storePersistentData( $data )
@@ -183,7 +200,7 @@ class Minifier
         //files not change
         if( $md5 == $last_md5 && file_exists( $output_path ) ) return false;
 
-        $result = $this->getAdapter()->compile( $files, $output_path, $mode );
+        $result = $this->getAdapter($mode)->compile( $files, $output_path );
 
         if( $result ) {
             return array( 'md5' => $md5, 'filepath' => $rel_output_path );

@@ -1,9 +1,15 @@
 <?php
 return array(
     'minifier'    => array(
-        'adapter'           => 'Minifier\Adapter\Minify',
-        //adapter constructor will be called with this array
-        'options'   => array(
+        'js_adapter'           => array(
+            'class'   => 'Minifier\Adapter\Minify',
+            'options' => array(
+            ),
+        ),
+        'css_adapter'           => array(
+            'class'   => 'Minifier\Adapter\Minify',
+            'options' => array(
+            ),
         ),
         'development_mode'       => true,
         //persistent file, some data will be stored there in
