@@ -16,12 +16,6 @@ return array(
         ),
     ),
 
-    'service_manager' => array(
-        'factories' => array(
-            'minifier'       =>  'Minifier\Factory',
-        ),
-    ),
-
     'controllers' => array(
         'invokables' => array(
             'Minifier\Controller\MinifierController' => 'Minifier\Controller\MinifierController',

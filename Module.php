@@ -9,11 +9,13 @@
 
 namespace Minifier;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
-
-use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Console\Adapter\AdapterInterface;
+
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
 
 class Module implements AutoloaderProviderInterface, ConsoleUsageProviderInterface
 {
@@ -23,17 +25,23 @@ class Module implements AutoloaderProviderInterface, ConsoleUsageProviderInterfa
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
-        return [
+        return array(
             'minify [--verbose|-v]' => 'Combines multiple CSS or Javascript files, removes unnecessary whitespace and comments',
-        ];
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'minifier'       =>  'Minifier\Factory',
+            ),
+        );
     }
 
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
-                __DIR__ . '/autoload_classmap.php',
-            ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
 		    // if we're in a namespace deeper than one level we need to fix the \ in the path
