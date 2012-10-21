@@ -62,3 +62,41 @@ $_SERVER['argc'] = $argc = count($argv);
 require __DIR__ . '/../public/index.php';
 
 ```
+
+Do not forget to give file execute access!
+Now, when you are in your project root directory, you can just type:
+`./bin/minify`
+
+To make life even easier you should consider use Minifer view helpers.
+We can provide two view helpers. You can use in very similiar way to
+adding normal, static js and css files.
+
+```php
+
+<?php echo $this->headLink()
+                ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+                ->appendBundle('css_bundle')
+
+echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap.min.js')
+                        ->prependFile($this->basePath() . '/js/jquery.min.js')
+                        ->prependBundle('js_bundle');
+        ?>
+```
+
+Bundle names are keys from above defined configuration,
+for sample: *'minifier'->'bundles'->'js'->'list'->'js_bundle'*.
+
+Analogously you can use *prependJsBundle*, *prependCssBundle* methods:
+
+```php
+<?php
+$this->prependJsBundle('js_bundle');
+echo $this->headLink();
+?>
+```
+
+Remember that entries will be really rendered when you will echo zf2 *headLink* view helper.
+
+Now you can simply control that zend attach js/css files list, or just bundles files - but
+changing **development_mode** flat in your *Minifier* configuration.
