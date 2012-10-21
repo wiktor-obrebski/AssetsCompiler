@@ -16,5 +16,13 @@
     "require": {
         "php": ">=5.3.3",
         "matthiasmullie/minify" : "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Minifier": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
     }
 }
