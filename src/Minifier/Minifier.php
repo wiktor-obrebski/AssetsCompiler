@@ -140,6 +140,9 @@ class Minifier
     {
         $path = $this->persistentPath;
 
+        $dir = basedir($path);
+        if(!is_dir($dir)) mkdir($dir, 0600, true);
+
         // Create the config object
         $config = new \Zend\Config\Config($data, true);
         $writer = new \Zend\Config\Writer\Xml();
@@ -204,7 +207,7 @@ class Minifier
 
             #$bundles    = $this->resolveToFiles( $bundles_options );
             $output_dir = $this->getPublicDirectory();
-            if( !is_dir( $output_dir ) ) mkdir( $output_dir );
+            if( !is_dir( $output_dir ) ) mkdir( $output_dir, 0600, true );
 
             foreach ($bundles_options['list'] as $name => $bundle) {
                 $loc_config = isset( $pers_config[$mode][$name] ) ? $pers_config[$mode][$name] : array();
