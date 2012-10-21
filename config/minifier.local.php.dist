@@ -1,0 +1,29 @@
+<?php
+
+return array(
+    'minifier'    => array(
+        'development_mode'       => true,
+        'bundles'   => array(
+            'js'    => array(
+                'output_dir'     => '/js/bundles',
+                'list'              => array(
+                    'js_bundle' => array(
+                        'sources' => array(
+                            '/js/test.js',
+                            '/js/compiled_coffee/test321.js',
+                            '/js/compiled_coffee/my_dir/in_test.js',
+                        ),
+                    ),
+                ),
+            ),
+            'css'    => array(
+                'output_dir' => '/css/bundles',
+                'list'       => array(
+                    'css_bundle' => array(
+                        'sources' => '/css/style.css',
+                    ),
+                ),
+            ),
+        ),
+    ),
+);
