@@ -1,0 +1,20 @@
+{
+    "name": "minifier/minifier",
+    "description": "Zend framework css and js combine and minify module",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "minify",
+        "combine",
+        "css",
+        "js",
+        "static",
+        "zf2",
+        "zendframework",
+        "zendframework2"
+    ],
+    "homepage": "http://github.com/psychowico/minifier",
+    "require": {
+        "php": ">=5.3.3",
+        "matthiasmullie/minify" : "dev-master"
+    }
+}
