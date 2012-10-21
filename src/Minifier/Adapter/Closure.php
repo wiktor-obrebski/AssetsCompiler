@@ -15,7 +15,8 @@ class Closure implements JsAdapterInterface
     public function __construct( $options = null )
     {
         $this->compiler_path = $options['jar'];
-        $this->flags = $options['flags'];
+        $this->flags = isset( $options['flags'] ) ? $options['flags'] : array();
+        ;
     }
 
     public function compileJs( $files_pathes, $output_file )
