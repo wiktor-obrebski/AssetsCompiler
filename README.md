@@ -66,52 +66,6 @@ the following content:
 
 ```php
 
-### Adapters
-
-By default *Minifier* code use *..\Adapter\Minify* adapter. It use
-[matthiasmullie/minify](https://github.com/matthiasmullie/minify) php library, so you do not need
-install any additional stuff to start working. But if you have more needs you can use others
-prepared adapter or write you own.
-We provided three aditional adapters:
- 1. *\Adapter\Closure* - using google [Closure](https://developers.google.com/closure/) library, can compile only js
- 2. *\Adapter\UglifyJS2* - using [UglifyJS2](https://github.com/mishoo/UglifyJS2) library, only for js
- 3. *\Adapter\YUI*  - using [YUI Compressor](http://developer.yahoo.com/yui/compressor/) library from yahoo, can be use with js and css
-
-They all external tools and need some configuration to start working with them. All can be configured
-in very similar way. In your configuration *'minifier'* array you can add two keys, *js_adapter* for
-javascript adapter and css_adapter for css adapter. They both should be arrays like in example:
-
-```php
-...
-  'minifier'  => array(
-    'js_adapter'  => array(
-      'class'   => 'AssetsCompiler\Minifier\Adapter\UglifyJS2',
-      'options' => array(
-        'exec'  => '/uglifyjs2/path/or/link/',
-        'flags' => array(
-          .. //additional compiler flags
-        ),
-      ),
-    ),
-  )
-```
-In similar way you can configure *css_adapter*, just remember that some adapters support only js!
-In exec param you need give your local path to library that you want use (Closure/UglifyJS2/YUI).
-In flags you can add additional parameters that will be send to compiler, for sample if you define
-*flags* like this:
-
-```php
-...
-  'flags' => array(
-    '--comments' => '',
-    '--define'   => 'DEBUG=false',
-  ),
-...
-```
-
-uglify will be called in something like
-`uglifyjs2 file1.js file2.js -o output_file.js --comments --define DEBUG=false`.
-
 #!/usr/bin/php
 <?php
 
@@ -160,3 +114,50 @@ or *headLink* in *prependCssBundle* case.
 
 Now you can simply control that zend attach js/css files list, or just bundles files - but
 changing **development_mode** flat in your *Minifier* configuration.
+
+
+### Adapters
+
+By default *Minifier* code use *..\Adapter\Minify* adapter. It use
+[matthiasmullie/minify](https://github.com/matthiasmullie/minify) php library, so you do not need
+install any additional stuff to start working. But if you have more needs you can use others
+prepared adapter or write you own.
+We provided three aditional adapters:
+ 1. *\Adapter\Closure* - using google [Closure](https://developers.google.com/closure/) library, can compile only js
+ 2. *\Adapter\UglifyJS2* - using [UglifyJS2](https://github.com/mishoo/UglifyJS2) library, only for js
+ 3. *\Adapter\YUI*  - using [YUI Compressor](http://developer.yahoo.com/yui/compressor/) library from yahoo, can be use with js and css
+
+They all external tools and need some configuration to start working with them. All can be configured
+in very similar way. In your configuration *'minifier'* array you can add two keys, *js_adapter* for
+javascript adapter and css_adapter for css adapter. They both should be arrays like in example:
+
+```php
+...
+  'minifier'  => array(
+    'js_adapter'  => array(
+      'class'   => 'AssetsCompiler\Minifier\Adapter\UglifyJS2',
+      'options' => array(
+        'exec'  => '/uglifyjs2/path/or/link/',
+        'flags' => array(
+          .. //additional compiler flags
+        ),
+      ),
+    ),
+  )
+```
+In similar way you can configure *css_adapter*, just remember that some adapters support only js!
+In exec param you need give your local path to library that you want use (Closure/UglifyJS2/YUI).
+In flags you can add additional parameters that will be send to compiler, for sample if you define
+*flags* like this:
+
+```php
+...
+  'flags' => array(
+    '--comments' => '',
+    '--define'   => 'DEBUG=false',
+  ),
+...
+```
+
+uglify will be called in something like
+`uglifyjs2 file1.js file2.js -o output_file.js --comments --define DEBUG=false`.
