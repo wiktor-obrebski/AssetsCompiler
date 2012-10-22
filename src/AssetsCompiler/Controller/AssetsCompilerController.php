@@ -12,7 +12,7 @@ namespace AssetsCompiler\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Request as ConsoleRequest;
 
-class MinifierController extends AbstractActionController
+class AssetsCompilerController extends AbstractActionController
 {
     protected $verbose;
 
