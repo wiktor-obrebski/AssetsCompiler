@@ -9,14 +9,13 @@ namespace Minifier\Adapter;
  */
 class Closure implements JsAdapterInterface
 {
-    protected $compiler_path;
-    protected $flags;
+    protected $exec;
+    protected $js_flags;
 
     public function __construct( $options = null )
     {
-        $this->compiler_path = $options['jar'];
-        $this->flags = isset( $options['flags'] ) ? $options['flags'] : array();
-        ;
+        $this->exec = $options['exec'];
+        $this->js_flags = $options['js'];
     }
 
     public function compileJs( $files_pathes, $output_file )
@@ -24,9 +23,9 @@ class Closure implements JsAdapterInterface
         $cmds = array_map( function( $file ){
             return sprintf('--js %s', $file );
         }, $files_pathes );
-        $cmd = sprintf('java -jar %s %s', $this->compiler_path,
+        $cmd = sprintf('java -jar %s %s', $this->exec,
                  implode( ' ', $cmds ) );
-        foreach ($this->flags as $key => $value_pack) {
+        foreach ($this->js_flags as $key => $value_pack) {
             if( is_scalar( $value_pack ) ) $value_pack = array( $value_pack );
             foreach ($value_pack as $value) {
                 $cmd .= ' ' . $key . ' ' . $value;

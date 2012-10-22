@@ -9,22 +9,21 @@ namespace Minifier\Adapter;
  */
 class UglifyJS2 implements JsAdapterInterface
 {
-    protected $compiler_path;
-    protected $flags;
+    protected $exec;
+    protected $js_flags;
 
     public function __construct( $options = null )
     {
-        $this->compiler_path =
-            isset( $options['exec'] ) ? $options['exec'] : 'uglifyjs2';
-
-        $this->flags = isset( $options['flags'] ) ? $options['flags'] : array();
+        $this->exec =
+            empty( $options['exec'] ) ? 'uglifyjs2' : $options['exec'];
+        $this->js_flags = $options['js'];
     }
 
     public function compileJs( $files_pathes, $output_file )
     {
-        $cmd = sprintf('%s %s', $this->compiler_path,
+        $cmd = sprintf('%s %s', $this->exec,
                  implode( ' ', $files_pathes ) );
-        foreach ($this->flags as $key => $value) {
+        foreach ($this->js_flags as $key => $value) {
             $cmd .= ' ' . $key . ' ' . $value;
         }
         $cmd .= ' -o ' . $output_file;

@@ -6,7 +6,8 @@ use MinifyCSS;
 use MinifyJS;
 
 /**
- * Minifier adapter interface
+ * This is a default minifier adapter interface, it use php only so not needed
+ * any additional library downloads and env configurations.
  *
  * @author Wiktor Obrębski
  */
@@ -17,12 +18,8 @@ class Minify implements JsAdapterInterface, CssAdapterInterface
 
     public function __construct( $options = null )
     {
-        if( !empty( $options ) ) {
-            $this->cssOptions = empty( $options['css_options'] ) ? MinifyCSS::ALL :
-                                $options['css_options'];
-            $this->jsOptions = empty( $options['js_options'] ) ? MinifyJS::ALL :
-                                $options['js_options'];
-        }
+        if( !empty( $options['css'] ) ) $this->cssOptions = $options['css'];
+        if( !empty( $options['js'] ) ) $this->cssOptions = $options['js'];
     }
 
     private function generalCompile( $minifier, $files_pathes, $output_file, $options )
