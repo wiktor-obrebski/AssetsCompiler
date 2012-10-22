@@ -1,6 +1,6 @@
 #Minifier
 
-Minifier is a moudle that is responsible for combine and minifying CSS and Javascript files.
+Minifier is a module that is responsible for combine and minifying CSS and Javascript files.
 It provides zend console route script to compile selected files as bundles and view helpers
 to automatically attaching bundles in your views.
 It can add files md5 to bundle file names - to avoid browser file caching after changes.
