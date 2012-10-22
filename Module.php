@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Minifier;
+namespace AssetsCompiler;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Console\Adapter\AdapterInterface;
@@ -34,7 +34,7 @@ class Module implements AutoloaderProviderInterface, ConsoleUsageProviderInterfa
     {
         return array(
             'factories' => array(
-                'minifier'       =>  'Minifier\Factory',
+                'minifier'       =>  'AssetsCompiler\Minifier\Factory',
             ),
         );
     }

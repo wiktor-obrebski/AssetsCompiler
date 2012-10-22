@@ -2,12 +2,12 @@
 return array(
     'minifier'    => array(
         'js_adapter'           => array(
-            'class'   => 'Minifier\Adapter\Minify',
+            'class'   => 'AssetsCompiler\Minifier\Adapter\Minify',
             'options' => array(
             ),
         ),
         'css_adapter'           => array(
-            'class'   => 'Minifier\Adapter\Minify',
+            'class'   => 'AssetsCompiler\Minifier\Adapter\Minify',
             'options' => array(
             ),
         ),
@@ -24,19 +24,19 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'Minifier\Controller\MinifierController' => 'Minifier\Controller\MinifierController',
+            'AssetsCompiler\Controller\AssetsCompilerController' => 'AssetsCompiler\Controller\AssetsCompilerController',
         ),
     ),
 
     'view_helpers' => array(
         'invokables' => array(
             //label, that support automatic translation
-            'headScript' => 'Minifier\View\Helper\HeadScript',
-            'headLink'   => 'Minifier\View\Helper\HeadLink',
+            'headScript' => 'AssetsCompiler\Minifier\View\Helper\HeadScript',
+            'headLink'   => 'AssetsCompiler\Minifier\View\Helper\HeadLink',
         ),
         'factories' => array(
-            'prependJsBundle'  => array( 'Minifier\Factory', 'createJsHelper' ),
-            'prependCssBundle' => array( 'Minifier\Factory', 'createCssHelper' ),
+            'prependJsBundle'  => array( 'AssetsCompiler\Minifier\Factory', 'createJsHelper' ),
+            'prependCssBundle' => array( 'AssetsCompiler\Minifier\Factory', 'createCssHelper' ),
         ),
     ),
 
@@ -47,7 +47,7 @@ return array(
                     'options' => array(
                         'route'    => 'minify [--verbose|-v]',
                         'defaults' => array(
-                            'controller' => 'Minifier\Controller\MinifierController',
+                            'controller' => 'AssetsCompiler\Controller\AssetsCompilerController',
                             'action'     => 'minify',
                         ),
                     ),

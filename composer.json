@@ -1,5 +1,5 @@
 {
-    "name": "minifier/minifier",
+    "name": "psychowico/assets-compiler",
     "description": "Zend framework css and js combine and minify module",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -18,14 +18,14 @@
             "email": "psychowico@gmail.com"
         }
     ],
-    "homepage": "http://github.com/psychowico/minifier",
+    "homepage": "http://github.com/psychowico/AssetsCompiler",
     "require": {
         "php": ">=5.3.3",
         "matthiasmullie/minify" : "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "Minifier": "src/"
+            "AssetsCompiler": "src/"
         },
         "classmap": [
             "./"
