@@ -109,14 +109,14 @@ class Factory implements FactoryInterface
         return $minifier;
     }
 
-    public function createJsHelper()
+    public static function createJsHelper()
     {
         $helper = new BundlePath();
         $helper->setMode( 'js' );
         return $helper;
     }
 
-    public function createCssHelper()
+    public static function createCssHelper()
     {
         $helper = new BundlePath();
         $helper->setMode( 'css' );
