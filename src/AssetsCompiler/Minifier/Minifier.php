@@ -173,6 +173,8 @@ class Minifier
         $public_dir = $this->getPublicDirectory();
 
         $output_dir = $public_dir . DIRECTORY_SEPARATOR . $this->options[$mode]['output_dir'];
+        if( !is_dir( $output_dir ) ) mkdir( $output_dir, 0755, true );
+
         $output_dir = realpath( $output_dir );
 
         $rel_output_dir = $this->options[$mode]['output_dir'];
@@ -222,7 +224,6 @@ class Minifier
 
             #$bundles    = $this->resolveToFiles( $bundles_options );
             $output_dir = $this->getPublicDirectory();
-            if( !is_dir( $output_dir ) ) mkdir( $output_dir, 0755, true );
 
             foreach ($bundles_options['list'] as $name => $bundle) {
                 $loc_config = isset( $pers_config[$mode][$name] ) ? $pers_config[$mode][$name] : array();
