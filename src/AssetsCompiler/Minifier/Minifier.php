@@ -168,7 +168,7 @@ class Minifier
      * generate packed bundle file, if md5 of included files has changed.
      * @return array with files md5 and output file relative path
      */
-    protected function generateBundle( $name, $bundle, $mode, $config )
+    protected function generateBundle( $name, $bundle, $mode, $config, $force )
     {
         $public_dir = $this->getPublicDirectory();
 
@@ -195,10 +195,11 @@ class Minifier
         $output_path = $output_dir . DIRECTORY_SEPARATOR . $output_name;
         $rel_output_path = $rel_output_dir . DIRECTORY_SEPARATOR . $output_name;
 
-
-        $last_md5 = isset($config['md5']) ? $config['md5'] : null;
-        //files not change
-        if( $md5 == $last_md5 && file_exists( $output_path ) ) return false;
+        if( !$force ) {
+            $last_md5 = isset($config['md5']) ? $config['md5'] : null;
+            //files not change
+            if( $md5 == $last_md5 && file_exists( $output_path ) ) return false;
+        }
 
         $result = $this->compileFiles( $files, $output_path, $mode );
 
@@ -212,7 +213,7 @@ class Minifier
      * compile all bundles files defined by configuration - generate output
      * files, by using setted adapter.
      */
-    public function compile()
+    public function compile( $force = false )
     {
         $modes  = [ 'js', 'css' ];
         $pers_config = $this->loadPersistentData();
@@ -228,7 +229,7 @@ class Minifier
             foreach ($bundles_options['list'] as $name => $bundle) {
                 $loc_config = isset( $pers_config[$mode][$name] ) ? $pers_config[$mode][$name] : array();
 
-                $result = $this->generateBundle( $name, $bundle, $mode, $loc_config );
+                $result = $this->generateBundle( $name, $bundle, $mode, $loc_config, $force );
                 if( $result == false ) continue;
                 $pers_config[$mode][$name] = $result;
                 $pers_config[$mode][$name]['sources'] = array( 'file' => $bundle['sources'] );

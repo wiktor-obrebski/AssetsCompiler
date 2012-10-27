@@ -14,8 +14,6 @@ use Zend\Console\Request as ConsoleRequest;
 
 class AssetsCompilerController extends AbstractActionController
 {
-    protected $verbose;
-
     public function minifyAction()
     {
         $request = $this->getRequest();
@@ -25,19 +23,12 @@ class AssetsCompilerController extends AbstractActionController
             throw new \RuntimeException('You can only use this action from a console!');
         }
 
-        $this->verbose = $request->getParam('verbose') || $request->getParam('v');
-
-        $this->log('Initializing..');
+        $force = $request->getParam('force') || $request->getParam('f');
 
         $minifier = $this->getServiceLocator()->get('minifier');
-        $minifier->compile();
+        $minifier->compile( $force );
 
         return array();
     }
 
-    protected function log($text, $critical = false)
-    {
-        if( $this->verbose ) print( $text . PHP_EOL );
-        return $this;
-    }
 }

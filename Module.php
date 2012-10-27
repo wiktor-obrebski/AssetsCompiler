@@ -26,7 +26,7 @@ class Module implements AutoloaderProviderInterface, ConsoleUsageProviderInterfa
     public function getConsoleUsage(AdapterInterface $console)
     {
         return array(
-            'minify [--verbose|-v]' => 'Combines multiple CSS or Javascript files, removes unnecessary whitespace and comments',
+            'minify [--force|-f]' => 'Recompile all files without checking md5 changes',
         );
     }
 
