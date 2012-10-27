@@ -45,7 +45,7 @@ return array(
             'routes' => array(
                 'minify' => array(
                     'options' => array(
-                        'route'    => 'minify [--verbose|-v]',
+                        'route'    => 'minify [--force|-f]',
                         'defaults' => array(
                             'controller' => 'AssetsCompiler\Controller\AssetsCompilerController',
                             'action'     => 'minify',
