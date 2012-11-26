@@ -28,6 +28,13 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
         return $this->persistentData;
     }
 
+    private function devConfigData()
+    {
+        $sl = $this->getView()->getHelperPluginManager()->getServiceLocator();
+        $config = $sl->get('config')['minifier'];
+        return $config['bundles'][$this->mode]['list'];
+    }
+
     /**
      * getting development mode flag - if it isn't setted to now,
      * trying get it from 'minifier'->'development_mode' configuration
@@ -99,27 +106,27 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
     {
         $sl = $this->getView()->getHelperPluginManager()->getServiceLocator();
 
-        $data = $this->persistentData();
-        $mode = $this->mode;
-
-        if( !isset( $data[$mode][$bundle_name] ) ) {
-            throw new \DomainException( sprintf(
-                '%s: Bundle "%s" not exists.',
-                __METHOD__,
-                $bundle_name
-            ));
-        }
-
         $base_path = $this->getView()->basePath();
         if( $this->getDevelopmentMode() ) {
-            $sources = $data[$mode][$bundle_name]['sources']['file'];
+            $data = $this->devConfigData();
+
+            $sources = $data[$bundle_name]['sources'];
             $sources = is_scalar($sources) ? array( $sources ) : $sources;
             return array_map( function( $file ) use( $base_path ) {
                 return $base_path . $file;
             }, $sources );
         }
         else {
-            $file = $data[$mode][$bundle_name]['filepath'];
+            $data = $this->persistentData()[$this->mode];
+            if( !isset( $data[$bundle_name] ) ) {
+                throw new \DomainException( sprintf(
+                    '%s: Bundle "%s" not exists.',
+                    __METHOD__,
+                    $bundle_name
+                ));
+            }
+
+            $file = $data[$bundle_name]['filepath'];
             return array( $base_path . $file );
         }
     }
