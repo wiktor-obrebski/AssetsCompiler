@@ -31,7 +31,8 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
     private function devConfigData()
     {
         $sl = $this->getView()->getHelperPluginManager()->getServiceLocator();
-        $config = $sl->get('config')['minifier'];
+        $config = $sl->get('config');
+        $config = $config['minifier'];
         return $config['bundles'][$this->mode]['list'];
     }
 
@@ -117,7 +118,9 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
             }, $sources );
         }
         else {
-            $data = $this->persistentData()[$this->mode];
+            $data = $this->persistentData();
+            $data = $data[$this->mode];
+
             if( !isset( $data[$bundle_name] ) ) {
                 throw new \DomainException( sprintf(
                     '%s: Bundle "%s" not exists.',
