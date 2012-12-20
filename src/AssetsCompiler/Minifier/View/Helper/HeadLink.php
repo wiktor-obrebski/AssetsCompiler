@@ -15,7 +15,7 @@ class HeadLink extends \Zend\View\Helper\HeadLink
         if (preg_match('/^(?P<action>(ap|pre)pend)Bundle$/', $method, $matches)) {
             $action  = $matches['action'];
             $content = $args[0];
-            $this->getView()->prependCssBundle()->__invoke( $content, $action );
+            $this->getView()->plugin('prependCssBundle')->__invoke( $content, $action );
             return $this;
         }
         else {

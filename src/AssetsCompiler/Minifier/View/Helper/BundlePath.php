@@ -107,7 +107,7 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
     {
         $sl = $this->getView()->getHelperPluginManager()->getServiceLocator();
 
-        $base_path = $this->getView()->basePath();
+        $base_path = $this->getView()->plugin('basePath')->__invoke();
         if( $this->getDevelopmentMode() ) {
             $data = $this->devConfigData();
 
@@ -144,10 +144,10 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
         foreach( $files as $file ) {
             switch( $this->getMode() ) {
                 case 'js':
-                    $this->getView()->headScript()->{$action . 'File'}( $file );
+                    $this->getView()->plugin('headScript')->{$action . 'File'}( $file );
                     break;
                 case 'css':
-                    $this->getView()->headLink()->{$action . 'Stylesheet'}( $file );
+                    $this->getView()->plugin('headLink')->{$action . 'Stylesheet'}( $file );
                     break;
             }
 
