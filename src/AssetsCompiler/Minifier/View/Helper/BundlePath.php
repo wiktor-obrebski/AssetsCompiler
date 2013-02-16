@@ -141,6 +141,11 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
 
         $files = $this->pathes( $bundle_name );
 
+        if( $action == 'prepend' ) {
+            //because we want prepend only full bundle, not all files.
+            $files = array_reverse( $files );
+        }
+
         foreach( $files as $file ) {
             switch( $this->getMode() ) {
                 case 'js':
