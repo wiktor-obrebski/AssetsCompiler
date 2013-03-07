@@ -8,6 +8,10 @@ It provides zend console route script to compile selected files as bundles and v
 to automatically attaching bundles in your views. It can add files md5 to bundle file
 names - to avoid browser file caching after changes.
 
+As **bundle** we understack pack of js/css files. In development mode all files from bundle
+are including to your site separately. In production - they are contacted and minimized to
+single bundle file and included in this way.
+
 ## Installation
 
  1. Add `"psychowico/assets-compiler": "dev-master"` to your `composer.json` file and run `php composer.phar update`.
@@ -22,8 +26,8 @@ to bundle file names - to avoid browser file caching after changes.
 ### Configuration
 
 To make Minifier working you need declare your bundles lists and set your local directories.
-Easiest way is copy `.../Minifier/config/minifier.local.php.dist` file
-to `config/autoload/minifier.local.php`. Next you need proper fill configuration data
+Easiest way is copy `.../Minifier/config/minifier.global.php.dist` file
+to `config/autoload/minifier.global.php`. Next you need proper fill configuration data
 inside `minifier` key. Most options have default values, you can found their
 in `.../Minifier/config/module.config.php` file.
 
@@ -32,13 +36,14 @@ in `.../Minifier/config/module.config.php` file.
    - *options*  - array of adapter options, you can read about them in "Adapters" section
  - *css_adapter* - css adapter configuration array, like above
 
- - *options* - array of options that will be send to adapter class constructor
  - *development_mode* - boolean flag, if true our view helper will attach all files included
                         in bundles, one by one. If setted to true - it will attach one combined
-                        file per bundle
+                        file per bundle. Default is true.
  - *persistent_file*  - bundles need store some data, it is done in xml file, you can specify
-                        where this file will be save, relative to project root
- - *public_dir*       - you can define your public directory here, relative to project root
+                        where this file will be save, relative to project root. Not required. By
+                        default it use *"./data/minifier/config.xml"* file.
+ - *public_dir*       - you can define your public directory here, relative to project root. Not required,
+                        By default it use *"./public"*.
  - *bundles*          - bundles configuration, can have *js* and *css* keys
 
 Both, *js* and *css* configurations you can define by using this options:
@@ -50,7 +55,7 @@ Both, *js* and *css* configurations you can define by using this options:
 List of bundles is a array where key is the bundle name, value is options array:
 
  - *filename*       - the bundle output filename pattern - by default it is '%s-%s'. First argument
-                       is the bundle name, second - bundle included files md5 value
+                       is the bundle name, second - bundle included files md5 value. Not required.
  - *sources*        - array of the bundle included files, pathes relative to project public directory
 
 ### How to use
@@ -113,7 +118,7 @@ Remember that entries will be really rendered when you will echo zf2 *headScript
 or *headLink* in *prependCssBundle* case.
 
 Now you can simply control that zend attach js/css files list, or just bundles files - but
-changing **development_mode** flat in your *Minifier* configuration.
+changing **development_mode** flag in your *Minifier* configuration.
 
 
 ### Adapters
