@@ -2,8 +2,8 @@
 
 namespace AssetsCompiler\Minifier\Adapter;
 
-use MinifyCSS;
-use MinifyJS;
+use MatthiasMullie\Minify\CSS as MinifyCSS;
+use MatthiasMullie\Minify\JS as MinifyJS;
 
 /**
  * This is a default minifier adapter interface, it use php only so not needed
