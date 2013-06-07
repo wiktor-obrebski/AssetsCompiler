@@ -31,7 +31,7 @@ class Closure implements JsAdapterInterface
                 $cmd .= ' ' . $key . ' ' . $value;
             }
         }
-        $cmd .= ' > ' . $output_file;
+        $cmd .= ' --js_output_file ' . $output_file;
         exec( $cmd );
         return true;
     }

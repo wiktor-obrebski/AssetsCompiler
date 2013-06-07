@@ -152,15 +152,22 @@ class Minifier
         return $writer->toFile( $path, $config);
     }
 
+    private function initializeFile($path)
+    {
+        $file = fopen($path, 'w');
+        fclose($file);
+    }
+
     protected function compileFiles( $files, $output_path, $mode )
     {
+        # only create empty file if we not have input files
+        $this->initializeFile($output_path);
+        if(count($files) == 0) return true;
         switch ($mode) {
             case 'js':
                 return $this->jsAdapter->compileJs($files, $output_path);
             case 'css':
                 return $this->cssAdapter->compileCss($files, $output_path);
-            default:
-                throw new \DomainException( 'Not supported mode.');
         }
     }
 
