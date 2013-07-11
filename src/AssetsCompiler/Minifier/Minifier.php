@@ -171,6 +171,37 @@ class Minifier
         }
     }
 
+    public function getFilesList($bundleName, $mode)
+    {
+        $bundle = $this->options[$mode]['list'][$bundleName];
+
+        $files = is_scalar( $bundle['sources'] ) ? array( $bundle['sources'] ) : $bundle['sources'];
+
+        if(!empty($bundle['directories'])) {
+            $dirs = $bundle['directories'];
+            $publicDir = $this->getPublicDirectory();
+            $realPublicDir = realpath($publicDir);
+            $pattern = '/\.' . $mode . '$/';
+            foreach($dirs as $dir) {
+                $relpath = $publicDir . $dir;
+                $path = realpath($relpath);
+                $it   = new \RecursiveDirectoryIterator($path);
+                $objects = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::SELF_FIRST);
+
+                foreach($objects as $file => $object){
+                    if(preg_match($pattern, $file)) {
+                        $relfile = substr($file, strlen($realPublicDir));
+                        if(!in_array($relfile, $files)) {
+                            $files []= $relfile;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $files;
+    }
+
     /**
      * generate packed bundle file, if md5 of included files has changed.
      * @return array with files md5 and output file relative path
@@ -191,7 +222,7 @@ class Minifier
         $name_pattern = isset( $bundle['filename'] ) ? $bundle['filename'] : static::OUTPUT_PATTERN;
         $name_pattern .= '.' . $ext;
 
-        $sources = is_scalar( $bundle['sources'] ) ? array( $bundle['sources'] ) : $bundle['sources'];
+        $sources = $this->getFilesList($name, $mode);
         $files = array_map( function( $file ) use( $public_dir ) {
             return realpath( $public_dir . DIRECTORY_SEPARATOR . $file );
         }, $sources );

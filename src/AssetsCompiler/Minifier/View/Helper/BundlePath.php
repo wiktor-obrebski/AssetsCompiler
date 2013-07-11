@@ -81,6 +81,8 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
         return $this->persistentPath;
     }
 
+
+
     /**
      * setting xml file path where persistent data are stored
      *
@@ -103,19 +105,13 @@ class BundlePath extends \Zend\View\Helper\AbstractHelper
         return $this;
     }
 
-    public function pathes( $bundle_name )
+    public function pathes($bundle_name)
     {
         $sl = $this->getView()->getHelperPluginManager()->getServiceLocator();
 
         $base_path = $this->getView()->plugin('basePath')->__invoke();
         if( $this->getDevelopmentMode() ) {
-            $data = $this->devConfigData();
-
-            $sources = $data[$bundle_name]['sources'];
-            $sources = is_scalar($sources) ? array( $sources ) : $sources;
-            return array_map( function( $file ) use( $base_path ) {
-                return $base_path . $file;
-            }, $sources );
+            return $sl->get('minifier')->getFilesList($bundle_name, $this->mode);
         }
         else {
             $data = $this->persistentData();

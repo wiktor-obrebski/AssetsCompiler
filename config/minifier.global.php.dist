@@ -13,6 +13,11 @@ return array(
                             '/js/compiled_coffee/test321.js',
                             '/js/compiled_coffee/my_dir/in_test.js',
                         ),
+                        'directories' => array(
+                            # all *.js files from this directories will be loaded! recursive.
+                            # it will be included after files from 'sources' section.
+                            '/js/common',
+                        ),
                     ),
                 ),
             ),
