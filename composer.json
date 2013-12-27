@@ -21,7 +21,7 @@
     "homepage": "http://github.com/psychowico/AssetsCompiler",
     "require": {
         "php": ">=5.3.3",
-        "matthiasmullie/minify" : "dev-master"
+        "matthiasmullie/minify" : "1.2.0"
     },
     "autoload": {
         "psr-0": {
