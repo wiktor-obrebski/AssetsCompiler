@@ -2,6 +2,7 @@
     "name": "psychowico/assets-compiler",
     "description": "Zend framework css and js combine and minify module",
     "license": "BSD-3-Clause",
+    "version": "1.0.0",
     "keywords": [
         "minify",
         "combine",
