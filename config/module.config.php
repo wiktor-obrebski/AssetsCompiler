@@ -12,6 +12,7 @@ return array(
             ),
         ),
         'development_mode'       => true,
+        'progression_mode'       => false,
         //persistent file, some data will be stored there in
         //xml format, need have write access
         'persistent_file'   => './data/minifier/config.xml',
