@@ -4,7 +4,6 @@ namespace AssetsCompiler\Minifier;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
-use AssetsCompiler\Minifier\Minifier;
 use AssetsCompiler\Minifier\View\Helper\BundlePath;
 
 /**
@@ -102,10 +101,15 @@ class Factory implements FactoryInterface
         list( $jsAdapter, $cssAdapter ) = $this->createAdapters( $options );
         $bundles_options = isset( $options['bundles'] ) ? $options['bundles'] : null;
 
+        $progression_mode = isset( $options['progression_mode'] ) ? true === $options['progression_mode'] : false;
+        $progression = new Progression( $progression_mode );
+
         $minifier = new Minifier( $jsAdapter, $cssAdapter );
         $minifier->setOptions( $bundles_options )
                  ->setPersistentPath( $persistent_path )
-                 ->setPublicDirectory( $public_dir );
+                 ->setPublicDirectory( $public_dir )
+                 ->setProgression( $progression );
+
         return $minifier;
     }
 
