@@ -10,6 +10,7 @@ class Minifier
     const OUTPUT_PATTERN = "%s-%s";
 
     protected $jsAdapter, $cssAdapter;
+    protected $progression;
     protected $options;
     protected $persistentPath;
     protected $bundles = array();
@@ -20,7 +21,7 @@ class Minifier
      * @param Adapter\CssAdapterInterface $cssAdapter
      */
     public function __construct( Adapter\JsAdapterInterface $jsAdapter = null,
-                                Adapter\CssAdapterInterface $cssAdapter = null )
+                                 Adapter\CssAdapterInterface $cssAdapter = null)
     {
         $this->setJsAdapter( $jsAdapter )
              ->setCssAdapter( $cssAdapter );
@@ -70,7 +71,6 @@ class Minifier
         return $this;
     }
 
-
     /**
      * getting path of file where persistent data will be stored
      *
@@ -102,6 +102,19 @@ class Minifier
     public function setOptions( $options )
     {
         $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * Sets the progression object to display the progression
+     * of bundles compilation of the Minifier.
+     *
+     * @param  Progression $progression
+     * @return Minifier
+     */
+    public function setProgression(Progression $progression )
+    {
+        $this->progression = $progression;
         return $this;
     }
 
@@ -250,8 +263,9 @@ class Minifier
     /**
      * compile all bundles files defined by configuration - generate output
      * files, by using setted adapter.
+     * @param bool $force
      */
-    public function compile( $force = false )
+    public function compile( $force = false)
     {
         $modes  = [ 'js', 'css' ];
         $pers_config = $this->loadPersistentData();
@@ -259,20 +273,29 @@ class Minifier
         foreach( $modes as $mode ) {
             if( empty( $this->options[$mode] ) ) continue;
 
+            $this->progression->displayBundleStart( $mode );
+
             $bundles_options = $this->options[$mode];
 
-            #$bundles    = $this->resolveToFiles( $bundles_options );
-            $output_dir = $this->getPublicDirectory();
+            $count_mode_name_bundle = sizeof($this->options[$mode]['list']);
+            $count = 0;
 
             foreach ($bundles_options['list'] as $name => $bundle) {
                 $loc_config = isset( $pers_config[$mode][$name] ) ? $pers_config[$mode][$name] : array();
-
                 $result = $this->generateBundle( $name, $bundle, $mode, $loc_config, $force );
+
+                $percent = $result == false ? 100 : ceil(100*(++$count) / $count_mode_name_bundle);
+                $this->progression->displayBundlePercent( $percent );
+
                 if( $result == false ) continue;
+
                 $pers_config[$mode][$name] = $result;
                 $pers_config[$mode][$name]['sources'] = array( 'file' => $bundle['sources'] );
             }
+
+            $this->progression->displayBundleEnd();
         }
+
         $this->storePersistentData( $pers_config );
     }
 }
